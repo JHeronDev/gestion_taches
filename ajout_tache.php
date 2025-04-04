@@ -91,8 +91,8 @@ include "auth.php";
                     ]);
                 }
             }
-            echo "Tache ajoutée avec succès ! Actualisation dans 1 seconde...";
-            echo '<meta http-equiv="refresh" content="1;url=ajout_tache.php">';
+            echo "Tache ajoutée avec succès ! Actualisation...";
+            echo '<meta http-equiv="refresh" content="0;url=ajout_tache.php">';
         } catch (PDOException $e) {
             die("Erreur : " . $e->getMessage());
         }

@@ -128,8 +128,8 @@ try {
                 }
                 $stmt->execute($params);
             }
-            echo "Tache modifiée avec succès ! Actualisation dans 1 seconde...";
-            echo '<meta http-equiv="refresh" content="1;url=modifier_tache.php?id=' . $id . '">';
+            echo "Tache modifiée avec succès ! Redirection...";
+            echo '<meta http-equiv="refresh" content="0;url=dashboard.php">';
         } catch (PDOException $e) {
             die("Erreur : " . $e->getMessage());
         }

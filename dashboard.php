@@ -106,8 +106,8 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <option value="prioritaire" <?= (isset($_GET['tri']) && $_GET['tri'] == 'prioritaire') ? 'selected' : '' ?>>
                 Priorité</option>
         </select>
-        <button id="fleche" type="submit" name="ordre" value="asc">↗️</button>
-        <button id="fleche" type="submit" name="ordre" value="desc">↘️</button>
+        <button id="fleche" type="submit" name="ordre" value="asc">⬆️</button>
+        <button id="fleche" type="submit" name="ordre" value="desc">⬇️</button>
 
         <label for="filtre">Filtre:</label>
         <select name="filtre" id="filtre" onchange="this.form.submit()">

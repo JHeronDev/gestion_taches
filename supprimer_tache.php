@@ -26,8 +26,8 @@ $id = $_GET['id'];
             $stmt = $pdo->prepare($sql);
             $stmt->execute([":id" => $id, ":user_id" => $_SESSION["user_id"]]);
             if ($stmt->rowCount() > 0) {
-                echo "Tâche supprimée avec succès ! Redirection dans 1 seconde...";
-                echo '<meta http-equiv="refresh" content="1;url=dashboard.php">';
+                echo "Tâche supprimée avec succès ! Redirection...";
+                echo '<meta http-equiv="refresh" content="0;url=dashboard.php">';
             } else {
                 echo "Erreur : tâche introuvable ou vous n'avez pas la permission.";
             }

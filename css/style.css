@@ -50,10 +50,11 @@ body.dark {
     background-color: rgb(15, 126, 177);
 }
 
+
 #recherche {
     display: flex;
     padding: 5px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     gap: 5px;
 }
 
@@ -67,21 +68,28 @@ body.dark {
     padding: 5px;
 }
 
+#recherche a {
+    font-size: 40px;
+    text-decoration: none;
+    width: 40px;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+}
+
 .tri {
-    opacity: 0.6;
-    position: absolute;
-    top: -25px;
-    right: 0px;
+    opacity: 0.8;
     margin: 0 auto 10px auto;
     padding: 0;
     box-shadow: 0 0 0;
     display: flex;
     border-radius: 0;
+    width: 340px;
 }
 
 .tri label {
     font-weight: lighter;
-    margin-left: 10px;
+    margin: auto 5px;
 }
 
 
@@ -115,18 +123,15 @@ input {
 
 #fleche {
     padding: 0;
-    width: 1em;
-    height: 1em;font-size: 1.2em;
+    width: 1.2em;
+    height: 1.2em;
+    font-size: 1.2em;
     background-color: transparent;
     border-radius: 0;
-    margin: 0 1px;
+    margin-left: 1px;
     line-height: 1;
-    align-items: center;
-    text-align: center;
-    vertical-align: middle;
     display: flex;
     justify-content: center;
-
 }
 
 form #radio {
@@ -179,18 +184,28 @@ button:hover {
 }
 
 table {
-    border-collapse: collapse;
-    margin: 10px auto auto auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+    border-spacing: 0;
+    overflow: hidden;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 700px;
     font-size: 18px;
     text-align: left;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 th {
-    background: grey;
-    padding: 12px;
+    color: #000;
+    background: rgb(196, 196, 196);
     text-align: center;
-    position: relative;
+    width: 50px;
+}
+
+h3 {
+    margin: auto;
+    text-align: center;
 }
 
 td,
@@ -204,6 +219,15 @@ th {
     font-weight: bold;
 }
 
+.orange {
+    color: orange;
+    font-weight: bold;
+}
+
+.vert {
+    color: rgb(38, 206, 38);
+}
+
 td a {
     display: inline-block;
 }
@@ -214,7 +238,7 @@ td a button {
 
 td .boutons {
     display: flex;
-    gap: 5px;
+    justify-content: space-around;
 }
 
 .boutons form {
@@ -222,11 +246,4 @@ td .boutons {
     padding: 0;
     border-radius: 0;
     box-shadow: 0 0 0;
-}
-
-@media (max-width: 700px) {
-    td .boutons {
-        flex-direction: column;
-        gap: 10px;
-    }
 }

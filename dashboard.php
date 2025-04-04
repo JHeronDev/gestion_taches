@@ -5,23 +5,31 @@ include "auth.php";
 <?php
 $aujourd_hui = new DateTime();
 $seuil = 2;
-$orderBy = "date_limite ASC";
+$critere = "date_limite";
+$ordre = "ASC";
 $where = "1=1";
 $params = [":user_id" => $_SESSION["user_id"]];
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 if (isset($_GET["tri"])) {
     switch ($_GET["tri"]) {
-        case "date_asc":
-            $orderBy = "date_limite ASC";
-            break;
-        case "date_desc":
-            $orderBy = "date_limite DESC";
+        case "date":
+            $critere = "date_limite";
             break;
         case "statut":
-            $orderBy = "statut ASC";
+            $critere = "statut";
             break;
         case "prioritaire":
-            $orderBy = "prioritaire DESC";
+            $critere = "prioritaire";
+            break;
+    }
+}
+if (isset($_GET["ordre"])) {
+    switch ($_GET["ordre"]) {
+        case "asc":
+            $ordre = "ASC";
+            break;
+        case "desc":
+            $ordre = "DESC";
             break;
     }
 }
@@ -39,13 +47,22 @@ if (isset($_GET["filtre"])) {
         case "prioritaire":
             $where = "prioritaire = 'Prioritaire'";
             break;
+        case "loisir":
+            $where = "categorie = 'Loisir'";
+            break;
+        case "travail":
+            $where = "categorie = 'Travail'";
+            break;
+        case "transport":
+            $where = "categorie = 'Transport'";
+            break;
     }
 }
-$sql = "SELECT taches.*, GROUP_CONCAT(categories.categorie SEPARATOR ', ') AS categorie FROM taches LEFT JOIN categories ON taches.id=categories.tache_id WHERE utilisateur_id = :user_id AND $where "; 
+$sql = "SELECT taches.*, GROUP_CONCAT(categories.categorie SEPARATOR ', ') AS categorie FROM taches LEFT JOIN categories ON taches.id=categories.tache_id WHERE utilisateur_id = :user_id AND $where ";
 if (!empty($search)) {
     $sql .= " AND (titre LIKE :search OR description LIKE :search)";
 }
-$sql.= " GROUP BY taches.id ORDER BY $orderBy";
+$sql .= " GROUP BY taches.id ORDER BY $critere $ordre";
 $stmt = $pdo->prepare($sql);
 if (!empty($search)) {
     $params[':search'] = "%$search%";
@@ -73,10 +90,10 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Liste des taches</h2>
     </div>
     <form id="recherche" method="GET">
-    <input type="text" name="search" placeholder="Rechercher une tâche..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-    <button type="submit">Rechercher</button>
-    <button id="del" type="reset">Reset</button>
-</form>
+        <input type="text" name="search" placeholder="Rechercher une tâche..."
+            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+        <button type="submit">Rechercher</button>
+    </form>
 
     <?php try {
         if (isset($_POST["tache_id"])) {
@@ -103,11 +120,14 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Actions<form class="tri" method="GET">
                     <label for="tri">Tri:</label>
                     <select name="tri" id="tri" onchange="this.form.submit()">
-                        <option value="date_asc" <?= (isset($_GET['tri']) && $_GET['tri'] == 'date_asc') ? 'selected' : '' ?>>Date croissante</option>
-                        <option value="date_desc" <?= (isset($_GET['tri']) && $_GET['tri'] == 'date_desc') ? 'selected' : '' ?>>Date décroissante</option>
-                        <option value="statut" <?= (isset($_GET['tri']) && $_GET['tri'] == 'statut') ? 'selected' : '' ?>>Statut</option>
+                        <option value="date" <?= (isset($_GET['tri']) && $_GET['tri'] == 'date') ? 'selected' : '' ?>>Date
+                        </option>
+                        <option value="statut" <?= (isset($_GET['tri']) && $_GET['tri'] == 'statut') ? 'selected' : '' ?>>
+                            Statut</option>
                         <option value="prioritaire" <?= (isset($_GET['tri']) && $_GET['tri'] == 'prioritaire') ? 'selected' : '' ?>>Priorité</option>
                     </select>
+                    <button id="fleche" type="submit" name="ordre" value="asc">↗️</button>
+                    <button id="fleche" type="submit" name="ordre" value="desc">↘️</button>
 
                     <label for="filtre">Filtre:</label>
                     <select name="filtre" id="filtre" onchange="this.form.submit()">
@@ -117,7 +137,9 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <option value="en_retard" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'en_retard') ? 'selected' : '' ?>>En retard</option>
                         <option value="terminee" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'terminee') ? 'selected' : '' ?>>Terminée</option>
                         <option value="prioritaire" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'prioritaire') ? 'selected' : '' ?>>Prioritaire</option>
-                        
+                        <option value="loisir" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'loisir') ? 'selected' : '' ?>>Loisir</option>
+                        <option value="travail" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'travail') ? 'selected' : '' ?>>Travail</option>
+                        <option value="transport" <?= (isset($_GET['filtre']) && $_GET['filtre'] == 'transport') ? 'selected' : '' ?>>Transport</option>
                     </select>
                 </form>
             </th>
@@ -150,7 +172,7 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tr>
         <?php endforeach; ?>
     </table>
-    
+
     <script src="js/script.js"></script>
 </body>
 

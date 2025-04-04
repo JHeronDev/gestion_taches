@@ -113,6 +113,22 @@ input {
     font-size: 16px;
 }
 
+#fleche {
+    padding: 0;
+    width: 1em;
+    height: 1em;font-size: 1.2em;
+    background-color: transparent;
+    border-radius: 0;
+    margin: 0 1px;
+    line-height: 1;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+
+}
+
 form #radio {
     display: flex;
 }

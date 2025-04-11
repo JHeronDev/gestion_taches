@@ -92,8 +92,7 @@ $taches = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <form id="recherche" method="GET">
         <input type="text" name="search" placeholder="Rechercher une tâche..."
-            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-        <button type="submit">Rechercher</button>
+            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" onchange="this.form.submit()">
         <a href="dashboard.php">🔄</a>
     </form>
     <form class="tri" method="GET">
